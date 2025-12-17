@@ -1,0 +1,98 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python .\src\data\data_ingestion.py
+    deps:
+    - path: .\data\external\emotion_dataset.csv
+      hash: md5
+      md5: 378e50a49c97277f1841a684687c2020
+      size: 3768210
+    - path: .\src\data\data_ingestion.py
+      hash: md5
+      md5: 573172e5c9b04658c2a2774872e8b3a4
+      size: 2116
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.4
+    outs:
+    - path: .\data\raw
+      hash: md5
+      md5: 2c62d39554873553caa56b522a5571ac.dir
+      size: 827066
+      nfiles: 2
+  data_preprocessing:
+    cmd: python .\src\data\data_preprocessing.py
+    deps:
+    - path: .\data\raw\
+      hash: md5
+      md5: 2c62d39554873553caa56b522a5571ac.dir
+      size: 827066
+      nfiles: 2
+    - path: .\src\data\data_preprocessing.py
+      hash: md5
+      md5: dc75637751411c7ef5e28a48350e4da2
+      size: 3003
+    outs:
+    - path: .\data\interim
+      hash: md5
+      md5: e1c0d6a6064d5e729efd7590bc257075.dir
+      size: 565488
+      nfiles: 2
+  feature_engineering:
+    cmd: python .\src\features\feature_engineering.py
+    deps:
+    - path: .\data\interim\
+      hash: md5
+      md5: e1c0d6a6064d5e729efd7590bc257075.dir
+      size: 565488
+      nfiles: 2
+    - path: .\src\features\feature_engineering.py
+      hash: md5
+      md5: 4f4093bf537f7a659935d16d8f5cf4cf
+      size: 2700
+    params:
+      params.yaml:
+        feature_engineering.max_features: 300
+    outs:
+    - path: .\data\processed
+      hash: md5
+      md5: 03a4f654b3f9d38b9ee2b3b939d8f90d.dir
+      size: 6245614
+      nfiles: 2
+  model_building:
+    cmd: python .\src\model\model_building.py
+    deps:
+    - path: .\data\processed\
+      hash: md5
+      md5: 03a4f654b3f9d38b9ee2b3b939d8f90d.dir
+      size: 6245614
+      nfiles: 2
+    - path: .\src\model\model_building.py
+      hash: md5
+      md5: 40502d416ad1852809ff59a2bc23b2db
+      size: 1710
+    params:
+      params.yaml:
+        model_building.c: 0.1
+        model_building.max_iter: 150
+    outs:
+    - path: .\models\model.pkl
+      hash: md5
+      md5: 865b6979e1e0b6f79484a242a129ebfc
+      size: 5474
+  model_evaluation:
+    cmd: python .\src\model\model_evaluation.py
+    deps:
+    - path: .\models\model.pkl
+      hash: md5
+      md5: 865b6979e1e0b6f79484a242a129ebfc
+      size: 5474
+    - path: .\src\model\model_evaluation.py
+      hash: md5
+      md5: 44a150b312de7fe29219d322533f5cad
+      size: 2844
+    outs:
+    - path: .\reports\metrics.json
+      hash: md5
+      md5: 6d45c9be48c771b2e9f412c429c80552
+      size: 145
