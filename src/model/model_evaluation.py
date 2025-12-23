@@ -74,6 +74,16 @@ def save_metrics(url: str, metrics: dict) -> None:
     with open(url, "w") as file:
         json.dump(metrics, file, indent=4)
 
+def save_model_version(model_name, version, url):
+
+    model_info = {
+        "model_name": model_name,
+        "version": version
+    }
+
+    with open(url, "w") as file:
+        json.dump(model_info, file, indent=4)
+
 def main():
 
     # Ingest data:
@@ -86,9 +96,7 @@ def main():
     # Save metrics:
     save_metrics("reports/metrics.json", metrics)
 
-    mlflow.autolog()
-
-    with mlflow.start_run():
+    with mlflow.start_run() as run:
 
         mlflow.log_metrics(metrics)
 
@@ -97,7 +105,15 @@ def main():
         mlflow.log_params(params["feature_engineering"])
         mlflow.log_params(params["model_building"])
 
-        mlflow.sklearn.log_model(model, name="Logistic Regression")
+        model_name = "Logistic_Regression"
+        registered_model_name = "emotion_detection"
+        signature = mlflow.models.infer_signature(x_test, model.predict(x_test))
+        model_info = mlflow.sklearn.log_model(model, name=model_name, signature=signature,
+                                 registered_model_name=registered_model_name)
+
+        version = model_info.registered_model_version
+        url = "reports/model_info.json"
+        save_model_version(registered_model_name, version, url)
 
 if __name__ == "__main__":
     main()

@@ -41,3 +41,8 @@ stages:
     - .\src\model\model_evaluation.py
     metrics:
     - .\reports\metrics.json
+  model_registry:
+    cmd: python .\src\model\model_registry.py
+    deps:
+    - .\reports\
+    - .\src\model\model_registry.py

@@ -1,4 +1,4 @@
 [core]
-    remote = myremote
-['remote "myremote"']
-    url = C:\Users\RR\AppData\Local\Temp
+    remote = gdrive
+['remote "gdrive"']
+    url = gdrive://1nn-NJKdZwnUgda77DyIoEh1J456dwml5
