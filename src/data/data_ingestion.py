@@ -59,7 +59,7 @@ def dump_data(train_data: pd.DataFrame, test_data: pd.DataFrame) -> None:
 def main():
 
     # Ingest Data:
-    url = "data/external/emotion_dataset.csv"
+    url = "https://raw.githubusercontent.com/PriyanshuMewal/datasets/main/emotion_dataset.csv"
     df = read_data(url)
 
     # Apply basic preprocessing:
