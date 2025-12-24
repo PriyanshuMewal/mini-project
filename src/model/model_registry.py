@@ -2,9 +2,20 @@ from mlflow import MlflowClient
 import mlflow
 import json
 import dagshub
+import os
 
-mlflow.set_tracking_uri("https://dagshub.com/PriyanshuMewal/mini-project.mlflow")
-dagshub.init(repo_owner='PriyanshuMewal', repo_name='mini-project', mlflow=True)
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set.")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+dagshub_url = "https://dagshub.com"
+repo_owner = "PriyanshuMewal"
+repo_name = 'mini-project'
+
+mlflow.set_tracking_uri(f"{dagshub_url}/{repo_owner}/{repo_name}.mlflow")
 
 url = "reports/model_info.json"
 with open(url, "r") as file:
