@@ -119,7 +119,7 @@ def main():
         model_name = "Logistic_Regression"
         registered_model_name = "emotion_detection"
         signature = mlflow.models.infer_signature(x_test, model.predict(x_test))
-        model_info = mlflow.sklearn.log_model(model, name=model_name, signature=signature,
+        model_info = mlflow.sklearn.log_model(model, artifact_path=model_name, signature=signature,
                                  registered_model_name=registered_model_name)
 
         version = model_info.registered_model_version
