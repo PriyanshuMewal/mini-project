@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
 import re
-from nltk.stem import WordNetLemmatizer
 import os
 import nltk
 
 nltk.download('stopwords')
-from nltk.corpus import stopwords
+nltk.download('wordnet')
+from nltk.corpus import stopwords, wordnet
+from nltk.stem import WordNetLemmatizer
 
 def lemmatization(text: str) -> str:
     lemmatizer = WordNetLemmatizer()
