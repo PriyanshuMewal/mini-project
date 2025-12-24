@@ -3,14 +3,10 @@ stages:
   data_ingestion:
     cmd: python .\src\data\data_ingestion.py
     deps:
-    - path: .\data\external\emotion_dataset.csv
-      hash: md5
-      md5: 378e50a49c97277f1841a684687c2020
-      size: 3768210
     - path: .\src\data\data_ingestion.py
       hash: md5
-      md5: 573172e5c9b04658c2a2774872e8b3a4
-      size: 2116
+      md5: 07ecaa9fdedaa2599862b980fe71658b
+      size: 2165
     params:
       params.yaml:
         data_ingestion.test_size: 0.4
