@@ -6,42 +6,42 @@ stages:
     params:
     - data_ingestion.test_size
     outs:
-    - ./data/raw
+    - data/raw
   data_preprocessing:
-    cmd: python .\src\data\data_preprocessing.py
+    cmd: python src/data/data_preprocessing.py
     deps:
-    - .\src\data\data_preprocessing.py
-    - .\data\raw\
+    - src/data/data_preprocessing.py
+    - data/raw/
     outs:
-    - .\data\interim
+    - data/interim
   feature_engineering:
-    cmd: python .\src\features\feature_engineering.py
+    cmd: python src/features/feature_engineering.py
     deps:
-    - .\data\interim\
-    - .\src\features\feature_engineering.py
+    - data/interim/
+    - src/features/feature_engineering.py
     params:
     - feature_engineering.max_features
     outs:
-    - .\data\processed
+    - data/processed
   model_building:
-    cmd: python .\src\model\model_building.py
+    cmd: python src/model/model_building.py
     deps:
-    - .\data\processed\
-    - .\src\model\model_building.py
+    - data/processed/
+    - src/model/model_building.py
     params:
     - model_building.c
     - model_building.max_iter
     outs:
-    - .\models\model.pkl
+    - models/model.pkl
   model_evaluation:
-    cmd: python .\src\model\model_evaluation.py
+    cmd: python src/model/model_evaluation.py
     deps:
-    - .\models\model.pkl
-    - .\src\model\model_evaluation.py
+    - models/model.pkl
+    - src/model/model_evaluation.py
     metrics:
-    - .\reports\metrics.json
+    - reports/metrics.json
   model_registry:
-    cmd: python .\src\model\model_registry.py
+    cmd: python src/model/model_registry.py
     deps:
-    - .\reports\
-    - .\src\model\model_registry.py
+    - reports/
+    - src/model/model_registry.py
