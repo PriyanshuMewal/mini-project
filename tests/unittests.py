@@ -27,7 +27,7 @@ class TestModelLoading(unittest.TestCase):
 
         # load model from model registry:
         cls.model_name = "emotion_detection"
-        cls.alias = "champion"
+        cls.alias = "challenger"
         cls.model = mlflow.pyfunc.load_model(model_uri=f"models:/{cls.model_name}@{cls.alias}")
 
         #     load vectorizer:
