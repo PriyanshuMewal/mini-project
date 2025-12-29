@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 import yaml
 import os
+import pickle
 
 def load_data(train_url: str, test_url: str) -> tuple:
 
@@ -22,6 +23,11 @@ def load_data(train_url: str, test_url: str) -> tuple:
     test_data.dropna(inplace=True)
 
     return train_data, test_data
+
+def save_trf(model):
+
+    with open("models/vectorizer.pkl", "wb") as vector:
+        pickle.dump(model, vector)
 
 def bag_of_words(train_data: pd.DataFrame, test_data: pd.DataFrame) -> tuple:
 
@@ -61,6 +67,9 @@ def bag_of_words(train_data: pd.DataFrame, test_data: pd.DataFrame) -> tuple:
     # Adding target column:
     x_train_bow["sentiment"] = y_train
     x_test_bow["sentiment"] = y_test
+
+    # Save vectorizer:
+    save_trf(vectorizer)
 
     return x_train_bow, x_test_bow
 

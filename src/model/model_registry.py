@@ -42,3 +42,8 @@ client.transition_model_version_stage(
     stage="Staging",
     archive_existing_versions=False
 )
+
+# delete the alias
+client.delete_registered_model_alias(model_name, "champion")
+client.set_registered_model_alias(model_name,
+                                  "champion", version=version)
