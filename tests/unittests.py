@@ -25,7 +25,7 @@ class TestModelLoading(unittest.TestCase):
         cls.model = mlflow.pyfunc.load_model(model_uri=f"models:/{cls.model_name}@{cls.alias}")
 
 
-     def test_model_loaded_properly(self):
+    def test_model_loaded_properly(self):
          self.assertIsNotNone(self.model)
 
 if __name__ == "__main__":
