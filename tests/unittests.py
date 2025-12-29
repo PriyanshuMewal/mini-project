@@ -2,6 +2,7 @@ import unittest
 import mlflow
 import os
 import pickle
+from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 
 import pandas as pd
 
@@ -33,6 +34,10 @@ class TestModelLoading(unittest.TestCase):
         with open("models/vectorizer.pkl", "rb") as file:
             cls.vectorizer = pickle.load(file)
 
+        # Load holdout data:
+        cls.holdout_data = pd.read_csv("data/processed/test_bow.csv")
+
+
 
     def test_model_loaded_properly(self):
          self.assertIsNotNone(self.model)
@@ -59,6 +64,31 @@ class TestModelLoading(unittest.TestCase):
         # Varify the output shape:
         self.assertEqual(len(prediction), test_df.shape[0])
         self.assertEqual(len(prediction.shape), 1)
+
+    def test_model_performance(self):
+        X = self.holdout_data.drop(columns=["sentiment"])
+        y = self.holdout_data["sentiment"]
+
+        y_pred = self.model.predict(X)
+
+        accuracy = accuracy_score(y_pred, y)
+        recall = recall_score(y_pred, y)
+        precision = precision_score(y_pred, y)
+        f1 = f1_score(y_pred, y)
+
+        expected_accuracy = 0.70
+        expected_recall = 0.70
+        expected_precision = 0.70
+        expected_f1 = 0.70
+
+        self.assertGreaterEqual(accuracy, expected_accuracy,
+                                f"Accuracy should be atleast {expected_accuracy}")
+        self.assertGreaterEqual(recall, expected_recall,
+                                f"Recall should be atleast {expected_recall}")
+        self.assertGreaterEqual(precision, expected_precision,
+                                f"Precision should be atleast {expected_precision}")
+        self.assertGreaterEqual(f1, expected_f1,
+                                f"f1_score should be atleast {f1}")
 
 if __name__ == "__main__":
     unittest.main()
