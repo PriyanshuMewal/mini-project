@@ -5,7 +5,7 @@ import os
 class TestModelLoading(unittest.TestCase):
 
     @classmethod
-    def setup_dagshub(cls):
+    def setUpClass(cls):
         dagshub_token = os.getenv("DAGSHUB_PAT")
         if not dagshub_token:
             raise EnvironmentError("DAGSHUB_PAT environment variable is not set.")
