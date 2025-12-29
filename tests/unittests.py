@@ -47,7 +47,7 @@ class TestModelLoading(unittest.TestCase):
 
         # feature engineering over text:
         test_df = self.vectorizer.transform([test_matrix])
-        test_df = pd.DataFrame(test_df.toarry(),
+        test_df = pd.DataFrame(test_df.toarray(),
                                   columns=self.vectorizer.get_feature_names_out())
 
         prediction = self.model.predict(test_df)
